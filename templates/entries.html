@@ -19,10 +19,26 @@
        .key {
            color: #3366cc;  /* Change the color as needed */
        }
+       /* Style for the dropdown list */
+       .collection-dropdown {
+           margin-bottom: 20px;
+       }
    </style>
 </head>
 <body>
    <h1>Entries</h1>
+   
+   <!-- Dropdown list for selecting collections -->
+   <form method="post">
+       <label for="collection_name">Select a Collection:</label>
+       <select name="collection_name" class="collection-dropdown">
+           {% for collection in collections_list %}
+               <option value="{{ collection }}" {% if collection == selected_collection %}selected{% endif %}>{{ collection }}</option>
+           {% endfor %}
+       </select>
+       <button type="submit">Show Entries</button>
+   </form>
+
    <ul>
        {% for entry in entries %}
            <li>
