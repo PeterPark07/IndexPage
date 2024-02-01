@@ -41,8 +41,12 @@ def delete_entry(entry_id):
     # Delete the entry with the given _id from the collection
     db[selected_collection].delete_one({'_id': entry_object_id})
 
-    # Redirect back to the home page with the selected collection
-    return jsonify(success=True)
+    # Retrieve data from the selected collection
+    collection = db[selected_collection]
+    entries_data = collection.find()
+
+    # Render the home page with the selected collection and updated entries
+    return render_template('entries.html', collections_list=collections_list, selected_collection=selected_collection, entries=entries_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
