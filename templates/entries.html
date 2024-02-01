@@ -10,10 +10,11 @@
            margin-bottom: 20px;
            list-style: none;
        }
-       /* Display key-value pairs horizontally with spacing */
+       /* Display key-value pairs horizontally without wrapping */
        .entry-item {
            display: inline-block;
            margin-right: 10px;
+           white-space: nowrap;
        }
        /* Different color for keys */
        .key {
@@ -42,6 +43,7 @@
    <ul>
        {% for entry in entries %}
            <li>
+               <strong>Entry {{ loop.index }}:</strong>
                <ul>
                    {% for key, value in entry.items() %}
                        <li class="entry-item"><span class="key"><strong>{{ key }}:</strong></span> {{ value }}</li>
