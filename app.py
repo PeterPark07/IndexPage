@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from database import db
+from bson import ObjectId
 
 app = Flask(__name__)
 
@@ -15,7 +16,7 @@ def home():
 
         # Check if the selected collection exists in the database
         if selected_collection not in db.list_collection_names():
-            return render_template('entries.html', collections_list=collections_list, error_message=f'Collection "{selected_collection}" not found.')
+            return render_template('entries.html', collections_list=collections_list, error_message=f'Collection "{selected_collection}" not found.', entries=mongo_data)
 
         # Retrieve data from the selected collection
         collection = db[selected_collection]
@@ -25,6 +26,17 @@ def home():
 
     # On initial GET request, render the home page with the default collection
     return render_template('entries.html', collections_list=collections_list, selected_collection=default_collection, entries=mongo_data)
+
+@app.route('/delete_entry/<string:entry_id>', methods=['POST'])
+def delete_entry(entry_id):
+    # Convert the entry_id to ObjectId
+    entry_object_id = ObjectId(entry_id)
+
+    # Delete the entry with the given _id from the collection
+    db[default_collection].delete_one({'_id': entry_object_id})
+
+    # Redirect back to the home page
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
