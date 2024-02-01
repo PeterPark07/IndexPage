@@ -7,13 +7,17 @@
    <style>
        /* Add some margin or padding to separate entries */
        li {
-           margin-bottom: 10px;
+           margin-bottom: 20px;
            list-style: none;
        }
        /* Display key-value pairs horizontally with spacing */
        .entry-item {
            display: inline-block;
            margin-right: 10px;
+       }
+       /* Different color for keys */
+       .key {
+           color: #3366cc;  /* Change the color as needed */
        }
    </style>
 </head>
@@ -22,9 +26,11 @@
    <ul>
        {% for entry in entries %}
            <li>
-               {% for key, value in entry.items() %}
-                   <span class="entry-item"><strong>{{ key }}:</strong> {{ value }}</span>
-               {% endfor %}
+               <ul>
+                   {% for key, value in entry.items() %}
+                       <li class="entry-item"><span class="key"><strong>{{ key }}:</strong></span> {{ value }}</li>
+                   {% endfor %}
+               </ul>
            </li>
        {% endfor %}
    </ul>
