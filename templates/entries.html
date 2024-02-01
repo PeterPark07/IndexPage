@@ -36,6 +36,11 @@
            border-radius: 5px;
            margin-left: 10px; /* Add margin to separate delete button from entry number */
        }
+       /* Container with flex display for entry number and delete button */
+       .entry-container {
+           display: flex;
+           align-items: center;
+       }
    </style>
 </head>
 <body>
@@ -55,10 +60,12 @@
    <ul>
        {% for entry in entries %}
            <li>
-               <strong>Entry {{ loop.index }}:</strong>
-               <form method="post" action="/delete_entry/{{ entry['_id'] }}">
-                   <button type="submit" class="delete-button">Delete</button>
-               </form>
+               <div class="entry-container">
+                   <strong>Entry {{ loop.index }}:</strong>
+                   <form method="post" action="/delete_entry/{{ entry['_id'] }}">
+                       <button type="submit" class="delete-button">Delete</button>
+                   </form>
+               </div>
                <ul>
                    {% for key, value in entry.items() %}
                        <li class="entry-item"><span class="key"><strong>{{ key }}:</strong></span> {{ value }}</li>
