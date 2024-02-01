@@ -39,8 +39,8 @@ def delete_entry(entry_id):
     # Delete the entry with the given _id from the collection
     db[selected_collection].delete_one({'_id': entry_object_id})
 
-    # Redirect back to the home page
-    return redirect(url_for('home'))
+    # Redirect back to the home page with the selected collection
+    return redirect(url_for('home', collection_name=selected_collection))
 
 if __name__ == '__main__':
     app.run(debug=True)
