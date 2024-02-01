@@ -1,3 +1,5 @@
+<!-- entries.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,10 +54,10 @@
    <ul>
        {% for entry in entries %}
            <li>
+               <strong>Entry {{ loop.index }}:</strong>
                <form method="post" action="/delete_entry/{{ entry['_id'] }}">
                    <button type="submit" class="delete-button">Delete</button>
                </form>
-               <strong>Entry {{ loop.index }}:</strong>
                <ul>
                    {% for key, value in entry.items() %}
                        <li class="entry-item"><span class="key"><strong>{{ key }}:</strong></span> {{ value }}</li>
