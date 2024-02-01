@@ -24,6 +24,15 @@
        .collection-dropdown {
            margin-bottom: 20px;
        }
+       /* Style for the delete button */
+       .delete-button {
+           background-color: #ff4444; /* Change the color as needed */
+           color: #ffffff;
+           border: none;
+           padding: 5px;
+           cursor: pointer;
+           border-radius: 5px;
+       }
    </style>
 </head>
 <body>
@@ -43,6 +52,9 @@
    <ul>
        {% for entry in entries %}
            <li>
+               <form method="post" action="/delete_entry/{{ entry['_id'] }}">
+                   <button type="submit" class="delete-button">Delete</button>
+               </form>
                <strong>Entry {{ loop.index }}:</strong>
                <ul>
                    {% for key, value in entry.items() %}
