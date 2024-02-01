@@ -63,7 +63,7 @@
                <div class="entry-container">
                    <strong>Entry {{ loop.index }}:</strong>
                    <form method="post" action="/delete_entry/{{ entry['_id'] }}">
-                       <button type="submit" class="delete-button">Delete</button>
+                       <button type="submit" class="delete-button" onclick="deleteEntry('{{ entry['_id'] }}')">Delete</button>
                    </form>
                </div>
                <ul>
@@ -75,4 +75,22 @@
        {% endfor %}
    </ul>
 </body>
+
+
+<script>
+    // JavaScript function to handle form submission after deletion
+    function deleteEntry(entryId) {
+        // Send an asynchronous request to delete the entry
+        fetch(`/delete_entry/${entryId}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // If deletion is successful, submit the main form to refresh the page
+                    document.getElementById('main-form').submit();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+   
 </html>
