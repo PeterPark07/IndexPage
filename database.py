@@ -3,5 +3,4 @@ import os
 
 # Connect to MongoDB
 mongo_client = MongoClient(os.getenv('mongodb'))
-db = mongo_client['Main1']
-index = db['Index']
+db = mongo_client['chat']
