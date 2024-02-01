@@ -33,7 +33,7 @@ def delete_entry(entry_id):
     entry_object_id = ObjectId(entry_id)
 
     # Delete the entry with the given _id from the collection
-    db[default_collection].delete_one({'_id': entry_object_id})
+    db[selected_collection].delete_one({'_id': entry_object_id})
 
     # Redirect back to the home page
     return redirect(url_for('home'))
