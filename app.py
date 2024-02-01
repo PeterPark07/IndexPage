@@ -1,3 +1,5 @@
+# app.py
+
 from flask import Flask, render_template, request, redirect, url_for
 from database import db
 from bson import ObjectId
@@ -40,7 +42,7 @@ def delete_entry(entry_id):
     db[selected_collection].delete_one({'_id': entry_object_id})
 
     # Redirect back to the home page with the selected collection
-    return redirect(url_for('home', collection_name=selected_collection))
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
