@@ -4,18 +4,6 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from database import db
 from bson import ObjectId
 
-
-import socket
-
-# Get the hostname of the server
-hostname = socket.gethostname()
-
-# Get the IP address of the server
-ip_address = socket.gethostbyname(hostname)
-
-print(f"Server IP Address: {ip_address}")
-
-
 app = Flask(__name__)
 
 # Mock MongoDB data for demonstration
@@ -28,6 +16,9 @@ selected_collection = default_collection  # Initialize selected_collection with 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     global selected_collection  # Use the global keyword to modify the global variable
+
+
+    print(request.headers.get('X-Forwarded-For', request.remote_addr))
 
     if request.method == 'POST':
         selected_collection = request.form.get('collection_name', default_collection)
