@@ -4,6 +4,18 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from database import db
 from bson import ObjectId
 
+
+import socket
+
+# Get the hostname of the server
+hostname = socket.gethostname()
+
+# Get the IP address of the server
+ip_address = socket.gethostbyname(hostname)
+
+print(f"Server IP Address: {ip_address}")
+
+
 app = Flask(__name__)
 
 # Mock MongoDB data for demonstration
