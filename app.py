@@ -6,6 +6,13 @@ from bson import ObjectId
 
 app = Flask(__name__)
 
+import requests
+
+response = requests.get('https://api.ipify.org?format=json')
+print(response.json())
+
+
+
 # Mock MongoDB data for demonstration
 default_collection = "log"  # Set a default collection
 collections_list = ["log", "messages", "torrentlog"]
@@ -16,9 +23,6 @@ selected_collection = default_collection  # Initialize selected_collection with 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     global selected_collection  # Use the global keyword to modify the global variable
-
-
-    print(request.headers.get('X-Forwarded-For', request.remote_addr))
 
     if request.method == 'POST':
         selected_collection = request.form.get('collection_name', default_collection)
