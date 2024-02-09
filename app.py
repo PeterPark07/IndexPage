@@ -6,8 +6,6 @@ from bson import ObjectId
 
 app = Flask(__name__)
 
-import requests
-
 # Mock MongoDB data for demonstration
 default_collection = "log"  # Set a default collection
 collections_list = ["log", "messages", "torrentlog"]
