@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # Mock MongoDB data for demonstration
 default_collection = "log"  # Set a default collection
-collections_list = ["log", "messages", "torrentlog"]
+collections_list = ["log", "messages", "torrentlog", "message_log", "ship"]
 mongo_data = db[default_collection].find()  # Fetch data from the default collection
 
 selected_collection = default_collection  # Initialize selected_collection with default value
