@@ -1,78 +1,91 @@
-<!-- entries.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Entries</title>
-   <style>
-       /* Add some margin or padding to separate entries */
-       li {
-           margin-bottom: 20px;
-           list-style: none;
-       }
-       /* Display key-value pairs horizontally without wrapping */
-       .entry-item {
-           display: inline-block;
-           margin-right: 10px;
-           white-space: nowrap;
-       }
-       /* Different color for keys */
-       .key {
-           color: #3366cc;  /* Change the color as needed */
-       }
-       /* Style for the dropdown list */
-       .collection-dropdown {
-           margin-bottom: 20px;
-       }
-       /* Style for the delete button */
-       .delete-button {
-           background-color: #ff4444; /* Change the color as needed */
-           color: #ffffff;
-           border: none;
-           padding: 5px;
-           cursor: pointer;
-           border-radius: 5px;
-           margin-left: 10px; /* Add margin to separate delete button from entry number */
-       }
-       /* Container with flex display for entry number and delete button */
-       .entry-container {
-           display: flex;
-           align-items: center;
-       }
-   </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .collection-dropdown, .delete-button {
+            margin-bottom: 10px;
+        }
+        .delete-button {
+            background-color: #ff4444;
+            color: #fff;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        .entry-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .entry-details {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .entry-item {
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+        .key {
+            color: #3366cc;
+        }
+    </style>
 </head>
 <body>
-   <h1>Entries</h1>
-   
-   <!-- Dropdown list for selecting collections -->
-   <form method="post">
-       <label for="collection_name">Select a Collection:</label>
-       <select name="collection_name" class="collection-dropdown">
-           {% for collection in collections_list %}
-               <option value="{{ collection }}" {% if collection == selected_collection %}selected{% endif %}>{{ collection }}</option>
-           {% endfor %}
-       </select>
-       <button type="submit">Show Entries</button>
-   </form>
-
-   <ul>
-       {% for entry in entries %}
-           <li>
-               <div class="entry-container">
-                   <strong>Entry {{ loop.index }}:</strong>
-                   <form method="post" action="/delete_entry/{{ entry['_id'] }}">
-                       <button type="submit" class="delete-button">Delete</button>
-                   </form>
-               </div>
-               <ul>
-                   {% for key, value in entry.items() %}
-                       <li class="entry-item"><span class="key"><strong>{{ key }}:</strong></span> {{ value }}</li>
-                   {% endfor %}
-               </ul>
-           </li>
-       {% endfor %}
-   </ul>
+    <h1>Entries</h1>
+    <form method="post">
+        <label for="collection_name">Select a Collection:</label>
+        <select name="collection_name" class="collection-dropdown">
+            {% for collection in collections_list %}
+                <option value="{{ collection }}" {% if collection == selected_collection %}selected{% endif %}>{{ collection }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Show Entries</button>
+    </form>
+    <ul id="entries-list">
+        {% for entry in entries %}
+            <li id="entry-{{ entry['_id'] }}">
+                <div class="entry-container">
+                    <strong>Entry {{ loop.index }}:</strong>
+                    <button class="delete-button" onclick="deleteEntry('{{ entry['_id'] }}')">Delete</button>
+                </div>
+                <div class="entry-details">
+                    {% for key, value in entry.items() %}
+                        {% if key != '_id' %}
+                            <div class="entry-item"><span class="key"><strong>{{ key }}:</strong></span> {{ value }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <script>
+        function deleteEntry(entryId) {
+            fetch(`/delete_entry/${entryId}`, {
+                method: 'DELETE'
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    document.getElementById(`entry-${entryId}`).remove();
+                } else {
+                    alert('Failed to delete entry.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
