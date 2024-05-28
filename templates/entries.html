@@ -25,15 +25,19 @@
             margin-left: 10px;
         }
         .entry-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             margin-bottom: 10px;
+            padding: 10px;
+        }
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
         }
         .entry-details {
+            margin-left: 30px;
             display: flex;
             flex-wrap: wrap;
         }
@@ -59,10 +63,12 @@
     </form>
     <ul id="entries-list">
         {% for entry in entries %}
-            <li id="entry-{{ entry['_id'] }}">
-                <div class="entry-container">
-                    <strong>Entry {{ loop.index }}:</strong>
-                    <button class="delete-button" onclick="deleteEntry('{{ entry['_id'] }}')">Delete</button>
+            <li>
+                <div class="entry-container" id="entry-{{ entry['_id'] }}">
+                    <div class="entry-header">
+                        <strong>Entry {{ loop.index }}:</strong>
+                        <button class="delete-button" onclick="deleteEntry('{{ entry['_id'] }}')">Delete</button>
+                    </div>
                     <div class="entry-details">
                         {% for key, value in entry.items() %}
                             {% if key != '_id' %}
