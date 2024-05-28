@@ -21,7 +21,7 @@ def home():
         else:
             return render_template('entries.html', collections_list=collections_list, error_message=f'Collection "{selected_collection}" not found.')
 
-    entries_data = list(db[selected_collection].find().limit(20))  # Limit the number of entries
+    entries_data = list(db[selected_collection].find())  # Limit the number of entries
 
     return render_template('entries.html', collections_list=collections_list, selected_collection=selected_collection, entries=entries_data)
 
