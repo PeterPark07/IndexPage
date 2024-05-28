@@ -63,13 +63,13 @@
                 <div class="entry-container">
                     <strong>Entry {{ loop.index }}:</strong>
                     <button class="delete-button" onclick="deleteEntry('{{ entry['_id'] }}')">Delete</button>
-                </div>
-                <div class="entry-details">
-                    {% for key, value in entry.items() %}
-                        {% if key != '_id' %}
-                            <div class="entry-item"><span class="key"><strong>{{ key }}:</strong></span> {{ value }}</div>
-                        {% endif %}
-                    {% endfor %}
+                    <div class="entry-details">
+                        {% for key, value in entry.items() %}
+                            {% if key != '_id' %}
+                                <div class="entry-item"><span class="key"><strong>{{ key }}:</strong></span> {{ value }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             </li>
         {% endfor %}
