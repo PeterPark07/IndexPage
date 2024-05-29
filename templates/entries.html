@@ -63,8 +63,8 @@
     </form>
     <ul id="entries-list">
         {% for entry in entries %}
-            <li>
-                <div class="entry-container" id="entry-{{ entry['_id'] }}">
+            <li id="entry-{{ entry['_id'] }}">
+                <div class="entry-container">
                     <div class="entry-header">
                         <strong>Entry {{ loop.index }}:</strong>
                         <button class="delete-button" onclick="deleteEntry('{{ entry['_id'] }}')">Delete</button>
