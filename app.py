@@ -12,6 +12,22 @@ db_collections_map = {
     "Sites": ["cloner", "cloud", "mycloud", "notes", "redirect"]
 }
 
+
+def fetch_collections_map():
+    db_collections_map = {}
+    database_names = mongo_client.list_database_names()
+    for db_name in database_names:
+        db = mongo_client[db_name]
+        db_collections_map[db_name] = db.list_collection_names()
+    return db_collections_map
+
+# Fetch collections map initially
+db_collections_map2 = fetch_collections_map()
+
+print(db_collections_map2)
+
+
+
 # Default database and collection
 default_db = 'chat'
 default_collection = 'log'
