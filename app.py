@@ -42,7 +42,7 @@ def home():
             return render_template('entries.html', db_list=db_list, collections_list=collections_list,
                                    error_message=f'Database "{selected_db}" or collection "{selected_collection}" not found.')
 
-    db = mongo_client(session['selected_db'])
+    db = mongo_client[session['selected_db']]
     entries_data = list(db[selected_collection].find())  # Limiting the number of entries for display
 
     return render_template('entries.html', db_list=db_list, collections_list=collections_list,
