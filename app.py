@@ -5,14 +5,6 @@ from bson import ObjectId
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # For session management
 
-# Collections for each database
-db_collections_map = {
-    "chat": ["log", "messages", "torrentlog", "message_log", "ship"],
-    "Movie": ["movie_info"],
-    "Sites": ["cloner", "cloud", "mycloud", "notes", "redirect"]
-}
-
-
 def fetch_collections_map():
     db_collections_map = {}
     database_names = mongo_client.list_database_names()
@@ -22,10 +14,7 @@ def fetch_collections_map():
     return db_collections_map
 
 # Fetch collections map initially
-db_collections_map2 = fetch_collections_map()
-
-print(db_collections_map2)
-
+db_collections_map = fetch_collections_map()
 
 
 # Default database and collection
