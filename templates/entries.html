@@ -54,12 +54,14 @@
     <h1>Entries</h1>
     <form method="post">
         <label for="db_name">Select a Database:</label>
-        <select name="db_name" class="collection-dropdown">
+        <select name="db_name" class="collection-dropdown" onchange="this.form.submit()">
             {% for db in db_list %}
                 <option value="{{ db }}" {% if db == selected_db %}selected{% endif %}>{{ db }}</option>
             {% endfor %}
         </select>
+    </form>
 
+    <form method="post">
         <label for="collection_name">Select a Collection:</label>
         <select name="collection_name" class="collection-dropdown">
             {% for collection in collections_list %}
@@ -68,6 +70,7 @@
         </select>
         <button type="submit">Show Entries</button>
     </form>
+
     <ul id="entries-list">
         {% for entry in entries %}
             <li id="entry-{{ entry['_id'] }}">
