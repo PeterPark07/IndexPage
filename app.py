@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # For session management
 
 # Collections for each database
-collections_map = {
+db_collections_map = {
     "chat": ["log", "messages", "torrentlog", "message_log", "ship"],
     "Movie": ["movie_info"],
     "Sites": ["cloner", "cloud", "mycloud", "notes", "redirect"]
