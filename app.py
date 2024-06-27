@@ -49,17 +49,6 @@ def home():
                                error_message=f'Database "{selected_db}" or collection "{selected_collection}" not found.')
 
     
-@app.route('/delete_entry/<string:entry_id>', methods=['DELETE'])
-def delete_entry(entry_id):
-    entry_object_id = ObjectId(entry_id)
-    selected_collection = session.get('selected_collection', 'log')
-    db[selected_collection].delete_one({'_id': entry_object_id})
-    return jsonify({'success': True})
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
 
 
 
