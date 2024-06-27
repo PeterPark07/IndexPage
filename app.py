@@ -53,8 +53,9 @@ def home():
 @app.route('/delete_entry/<string:entry_id>', methods=['DELETE'])
 def delete_entry(entry_id):
     entry_object_id = ObjectId(entry_id)
-    selected_db, selected_collection = session['selected_db_collection'].split('/')
-    selected_db[selected_collection].delete_one({'_id': entry_object_id})
+    selected_db_name, selected_collection = session['selected_db_collection'].split('/')
+    db = mongo_client[selected_db_name]  # Get the database object
+    db[selected_collection].delete_one({'_id': entry_object_id})
     return jsonify({'success': True})
 
 if __name__ == '__main__':
