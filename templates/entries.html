@@ -53,6 +53,13 @@
 <body>
     <h1>Entries</h1>
     <form method="post">
+        <label for="db_name">Select a Database:</label>
+        <select name="db_name" class="collection-dropdown">
+            {% for db in db_list %}
+                <option value="{{ db }}" {% if db == selected_db %}selected{% endif %}>{{ db }}</option>
+            {% endfor %}
+        </select>
+
         <label for="collection_name">Select a Collection:</label>
         <select name="collection_name" class="collection-dropdown">
             {% for collection in collections_list %}
