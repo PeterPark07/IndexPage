@@ -1,29 +1,52 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
-from database import db
+from database import mongo_client
 from bson import ObjectId
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # For session management
 
-collections_list = ["log", "messages", "torrentlog", "message_log", "ship"]
+db_list = ["chat", "Movie", "Sites"]
+
+# Collections for each database
+collections_map = {
+    "chat": ["log", "messages", "torrentlog", "message_log", "ship"],
+    "Movie": ["movie_info"],
+    "Sites": ["cloner", "cloud", "mycloud", "notes", "redirect"]
+}
+
+# Default database and collection
+default_db = 'chat'
+default_collection = 'log'
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    if 'selected_db' not in session:
+        session['selected_db'] = default_db  # Default database
+
+    selected_db = session['selected_db']
+    collections_list = collections_map[selected_db]
+
     if 'selected_collection' not in session:
-        session['selected_collection'] = 'log'  # Default collection
+        session['selected_collection'] = default_collection  # Default collection
 
     selected_collection = session['selected_collection']
 
     if request.method == 'POST':
-        selected_collection = request.form.get('collection_name', 'log')
-        if selected_collection in db.list_collection_names():
+        selected_db = request.form.get('db_name', default_db)
+        selected_collection = request.form.get('collection_name', default_collection)
+
+        if selected_db in db_list and selected_collection in collections_map[selected_db]:
+            session['selected_db'] = selected_db
             session['selected_collection'] = selected_collection
         else:
-            return render_template('entries.html', collections_list=collections_list, error_message=f'Collection "{selected_collection}" not found.')
+            return render_template('entries.html', db_list=db_list, collections_list=collections_list,
+                                   error_message=f'Database "{selected_db}" or collection "{selected_collection}" not found.')
 
-    entries_data = list(db[selected_collection].find())  # Limit the number of entries
+    db = mongo_client(session['selected_db'])
+    entries_data = list(db[selected_collection].find().limit(100))  # Limiting the number of entries for display
 
-    return render_template('entries.html', collections_list=collections_list, selected_collection=selected_collection, entries=entries_data)
+    return render_template('entries.html', db_list=db_list, collections_list=collections_list,
+                           selected_db=selected_db, selected_collection=selected_collection, entries=entries_data)
 
 @app.route('/delete_entry/<string:entry_id>', methods=['DELETE'])
 def delete_entry(entry_id):
