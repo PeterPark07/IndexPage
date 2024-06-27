@@ -8,7 +8,7 @@ app.secret_key = 'supersecretkey'  # For session management
 def fetch_collections_map():
     db_collections_map = {}
     system_dbs = {'admin', 'local', 'config'}  # System databases to exclude
-    database_names = [db for db in client.list_database_names() if db not in system_dbs]
+    database_names = [db for db in mongo_client.list_database_names() if db not in system_dbs]
     for db_name in database_names:
         db = mongo_client[db_name]
         db_collections_map[db_name] = db.list_collection_names()
