@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+from flask import Flask, render_template, request, redirect, jsonify, session
 from database import mongo_client
 from bson import ObjectId
 
